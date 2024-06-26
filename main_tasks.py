@@ -35,36 +35,60 @@ def get_artist_songs(artist_id):
     songs = songs_response["songs"]
     return songs
 
-
 def sentiment_analysis(text):
 
     sentiment_url = "http://text-processing.com/api/sentiment/"
     response = requests.post(sentiment_url, data={'text': text})
-    return response.json()['label']
+    response_json = response.json()
+    return response_json.get("label", "neutral")
 
 
-def create_song_data(songs):
+def create_song_data(artist_name, songs):
 
     song_data = []
     for song in songs:
         song_title = song['title']
         sentiment = sentiment_analysis(song_title)
-        song_data.append({'title': song_title,
+        song_data.append({'artist_name': artist_name,
+                        'song_title': song_title,
                         'sentiment': sentiment})
     return song_data
         
-artist_name = input("Enter the name of an artist: ")
-artist_id = get_artist_id(artist_name)
+artist_names = []
 
-artist_songs = get_artist_songs(artist_id)
-
-song_data = create_song_data(artist_songs)
-
-songs_df = pd.DataFrame(song_data)
+for i in range(3):
+    name = input("Enter the name of an artist: ")
+    artist_names.append(name)
 
 engine = db.create_engine('sqlite:///songs.db')
-songs_df.to_sql('user', con=engine, if_exists='replace', index=False)
 
-with engine.connect() as connection:
-   query_result = connection.execute(db.text("SELECT * FROM user;")).fetchall()
-   print(pd.DataFrame(query_result))
+for artist_name in artist_names:
+    artist_id = get_artist_id(artist_name)
+
+    if artist_id:
+        artist_songs = get_artist_songs(artist_id)
+        song_data = create_song_data(artist_name,artist_songs)
+
+        songs_df = pd.DataFrame(song_data)
+
+        table_name = artist_name.replace(" ", "_").lower()
+
+        songs_df.to_sql(table_name, con=engine, if_exists='replace', index=False)
+
+        with engine.connect() as connection:
+            query_result = connection.execute(db.text(f"SELECT * FROM {table_name};")).fetchall()
+            result_df = pd.DataFrame(query_result, columns=['artist_name', 'song_title', 'sentiment'])
+            print(f"Artist: {artist_name}")
+            print(result_df)
+            
+            print()
+            sentiment_summary = result_df["sentiment"].value_counts(normalize=True)
+            print(sentiment_summary)
+
+            dominant_sentiment = sentiment_summary.idxmax()
+            print(f"{artist_name} tends to come up with more {dominant_sentiment} sounding song titles.")
+            print()
+
+    else:
+        print("Artist cannot be found.")
+
