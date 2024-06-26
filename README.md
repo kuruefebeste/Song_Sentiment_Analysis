@@ -34,9 +34,9 @@ Song Sentiment_Analyzer is a Python project that performs sentiment analysis on 
 
 3. Enter the names of the artists when prompted. For example:
 
-Enter the name of an artist: Ed Sheeran
-Enter the name of an artist: Britney Spears
-Enter the name of an artist: Justin Timberlake
+- Enter the name of an artist: Ed Sheeran
+- Enter the name of an artist: Britney Spears
+- Enter the name of an artist: Justin Timberlake
 
 4. The script will fetch the top 20 popular songs for each artist, perform sentiment analysis on the song titles, and display the results.
 
