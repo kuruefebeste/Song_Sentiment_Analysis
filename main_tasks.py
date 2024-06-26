@@ -56,7 +56,8 @@ def create_song_data(artist_name, songs):
         
 artist_names = []
 
-for i in range(3):
+# try ed sheeran and britney spears
+for i in range(1):
     name = input("Enter the name of an artist: ")
     artist_names.append(name)
 
@@ -78,17 +79,33 @@ for artist_name in artist_names:
         with engine.connect() as connection:
             query_result = connection.execute(db.text(f"SELECT * FROM {table_name};")).fetchall()
             result_df = pd.DataFrame(query_result, columns=['artist_name', 'song_title', 'sentiment'])
+            print()
             print(f"Artist: {artist_name}")
             print(result_df)
             
             print()
-            sentiment_summary = result_df["sentiment"].value_counts(normalize=True)
+            sentiment_summary_temp = result_df["sentiment"].value_counts(normalize=True)
+
+            # transforms the indices to a regular column
+            sentiment_summary = sentiment_summary_temp.reset_index()
+            sentiment_summary.columns = ['sentiment', 'proportion']
+            sentiment_summary_table_name = f"{table_name}_sentiment_summary"
+            sentiment_summary.to_sql(sentiment_summary_table_name, con=engine, if_exists='replace', index=False)
+            
             print(sentiment_summary)
 
-            dominant_sentiment = sentiment_summary.idxmax()
-            print(f"{artist_name} tends to come up with more {dominant_sentiment} sounding song titles.")
-            print()
+            dominant_sentiments = sentiment_summary.nlargest(2, 'proportion')
+            first_dominant_val = dominant_sentiments.iloc[0]['sentiment']
+            second_dominant_val = dominant_sentiments.iloc[1]['sentiment']
 
+            # makes the output print statement more readable
+            sentiment_map = {"pos": "positive", "neg": "negative", "neutral": "neutral"}
+            first_dominant = sentiment_map.get(first_dominant_val)
+            second_dominant = sentiment_map.get(second_dominant_val)
+
+            print()
+            print(f"{artist_name} tends to come up with more {first_dominant}-{second_dominant} sounding song titles.")
+       
     else:
         print("Artist cannot be found.")
 
