@@ -12,7 +12,7 @@ Song Sentiment_Analyzer is a Python project that performs sentiment analysis on 
 
 1. Clone the repository from this link: https://github.com/kuruefebeste/Song_Sentiment_Analysis.git
 
-2. Make sure you have these installed:
+2. Make sure you have the following libraries installed:
 * requests
 * json
 * sqlalchemy
