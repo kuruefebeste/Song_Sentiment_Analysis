@@ -68,6 +68,3 @@ songs_df.to_sql('user', con=engine, if_exists='replace', index=False)
 with engine.connect() as connection:
    query_result = connection.execute(db.text("SELECT * FROM user;")).fetchall()
    print(pd.DataFrame(query_result))
-
-
-## quick test edit
