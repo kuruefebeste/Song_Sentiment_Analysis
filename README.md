@@ -15,7 +15,7 @@ Song Sentiment_Analyzer is a Python project that performs sentiment analysis on 
 2. Make sure you have these installed:
 * requests
 * json
-* *sqlalchemy
+* sqlalchemy
 * pandas
 * os
 * lyricsgenius
