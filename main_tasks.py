@@ -56,8 +56,8 @@ def create_song_data(artist_name, songs):
         
 artist_names = []
 
-# try ed sheeran and britney spears
-for i in range(1):
+# try ed sheeran, britney spears, justin timberlake
+for i in range(3):
     name = input("Enter the name of an artist: ")
     artist_names.append(name)
 
