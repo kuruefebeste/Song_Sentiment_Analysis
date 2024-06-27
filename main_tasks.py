@@ -6,7 +6,6 @@ This file executes the main tasks of the Song Sentiment Analysis Project,
 which is created as the Week 2 Project of the SEO Tech Developer Program.
 '''
 
-
 import requests
 import json
 import sqlalchemy as db
@@ -83,8 +82,8 @@ def create_song_data(artist_name, songs):
 artist_names = []
 
 # Asks the user for three artist names
-for i in range(3):
-    # Try ed sheeran, britney spears, justin timberlake
+for i in range(1):
+    # Try bob marley, britney spears, justin timberlake
     name = input("Enter the name of an artist: ")
     artist_names.append(name)
 
@@ -141,7 +140,7 @@ for artist_name in artist_names:
             second_dominant = sentiment_map.get(second_dominant_val)
 
             print()
-            print(f"{artist_name} tends to come up with more {first_dominant}-{second_dominant} sounding song titles.")
+            print(f"{artist_name}'s song titles tend to sound {first_dominant}-{second_dominant}.")
        
     else:
         print("Artist cannot be found.")
