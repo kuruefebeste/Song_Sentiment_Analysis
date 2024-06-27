@@ -84,7 +84,8 @@ artist_names = []
 
 # Asks the user for three artist names
 for i in range(3):
-    name = input("Enter the name of an artist: ")  # Try ed sheeran, britney spears, justin timberlake
+    # Try ed sheeran, britney spears, justin timberlake
+    name = input("Enter the name of an artist: ")
     artist_names.append(name)
 
 # Creates an SQLite Database engine, which connects to the database named songs.db
@@ -126,7 +127,7 @@ for artist_name in artist_names:
             sentiment_summary.columns = ['sentiment', 'proportion']
             sentiment_summary_table_name = f"{table_name}_sentiment_summary"
             sentiment_summary.to_sql(sentiment_summary_table_name, con=engine, if_exists='replace', index=False)
-            
+
             print(sentiment_summary)
             
             # Determines the two most dominant sentiments
