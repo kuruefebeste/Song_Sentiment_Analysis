@@ -34,8 +34,9 @@ def get_artist_id(name):
     response_json = response.json()
 
     if response_json["response"]:
-        artist_info = response_json["response"]["hits"][0]["result"]["primary_artist"]
-        return artist_info["id"]
+        artist_info = response_json["response"]["hits"][0]["result"]
+        artist_id_num = artist_info["primary_artist"]["id"]
+        return artist_id_num
     
     return "The artist cannot be found."
 
@@ -81,7 +82,7 @@ artist_names = []
 
 # Asks the user for three artist names
 for i in range(3):
-    name = input("Enter the name of an artist: ") # Try ed sheeran, britney spears, justin timberlake
+    name = input("Enter the name of an artist: ")  # Try ed sheeran, britney spears, justin timberlake
     artist_names.append(name)
 
 # Creates an SQLite Database engine, which connects to the database named songs.db
@@ -92,7 +93,7 @@ for artist_name in artist_names:
 
     if artist_id:
         artist_songs = get_artist_songs(artist_id)
-        song_data = create_song_data(artist_name,artist_songs)
+        song_data = create_song_data(artist_name, artist_songs)
 
         songs_df = pd.DataFrame(song_data)
 
@@ -105,15 +106,14 @@ for artist_name in artist_names:
         # Connects to the SQLite database
         with engine.connect() as connection:
 
-            # Coes a query to retrieve all rows from the table
+            # Does a query to retrieve all rows from the table
             query_result = connection.execute(db.text(f"SELECT * FROM {table_name};")).fetchall()
+            result_df = pd.DataFrame(query_result, columns=['artist_name', 'song_title', 'sentiment'])
             
             print()
             print(f"Artist: {artist_name}")
-            print(query_result)
+            print(result_df)
             print()
-
-            result_df = pd.DataFrame(query_result, columns=['artist_name', 'song_title', 'sentiment'])
 
             # Calculates the proportion of each sentiment in the songs
             sentiment_summary_temp = result_df["sentiment"].value_counts(normalize=True)
@@ -142,5 +142,4 @@ for artist_name in artist_names:
        
     else:
         print("Artist cannot be found.")
-
 
