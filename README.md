@@ -8,6 +8,9 @@
 
 Song Sentiment Analysis is a Python project that performs sentiment analysis on the titles of the most popular twenty songs by a given artist. It uses the Genius API to access song titles and the Text-Processing API to analyze the sentiment of these titles. The results are stored in a SQLite database and printed out for further analysis.
 
+Some of the methods in main_tasks.py are inspired by imdkm's GeniusMetaData project:
+https://gist.github.com/imdkm/a60247b59ff1881fa4bb8846a9b44c96
+
 ## Setup
 
 1. Clone the repository from this link: https://github.com/kuruefebeste/Song_Sentiment_Analysis.git
