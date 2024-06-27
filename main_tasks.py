@@ -3,7 +3,7 @@ Project Collaborators: Beste Kuruefe and Mercy Olagunju
 Date: June 28, 2024
 
 This file executes the main tasks of the Song Sentiment Analysis Project,
-which is created as the Week 2 Project of the SEO Tech Developer Program. 
+which is created as the Week 2 Project of the SEO Tech Developer Program.
 '''
 
 
@@ -65,7 +65,7 @@ def sentiment_analysis(text):
 
 def create_song_data(artist_name, songs):
     '''
-    Creates and returns a song data list when the artist name and the artists' songs are given as an input.
+    Creates and returns a song data list.
     '''
 
     song_data = []
@@ -111,7 +111,7 @@ for artist_name in artist_names:
             # Does a query to retrieve all rows from the table
             query_result = connection.execute(db.text(f"SELECT * FROM {table_name};")).fetchall()
             result_df = pd.DataFrame(query_result, columns=['artist_name', 'song_title', 'sentiment'])
-            
+
             print()
             print(f"Artist: {artist_name}")
             print(result_df)
