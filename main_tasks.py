@@ -2,7 +2,7 @@
 Project Collaborators: Beste Kuruefe and Mercy Olagunju
 Date: June 28, 2024
 
-This file executes the main tasks of the Song Sentiment Analysis Project, 
+This file executes the main tasks of the Song Sentiment Analysis Project,
 which is created as the Week 2 Project of the SEO Tech Developer Program. 
 '''
 
@@ -37,7 +37,7 @@ def get_artist_id(name):
         artist_info = response_json["response"]["hits"][0]["result"]
         artist_id_num = artist_info["primary_artist"]["id"]
         return artist_id_num
-    
+
     return "The artist cannot be found."
 
 
@@ -46,8 +46,8 @@ def get_artist_songs(artist_id):
     Returns the songs of the artist, whose id is given as input.
     '''
 
-    songs_response = genius.artist_songs(artist_id=artist_id, per_page=20, sort="popularity")
-    songs = songs_response["songs"]
+    song_resp = genius.artist_songs(artist_id, per_page=20, sort="popularity")
+    songs = song_resp["songs"]
     return songs
 
 
@@ -72,9 +72,11 @@ def create_song_data(artist_name, songs):
     for song in songs:
         song_title = song['title']
         sentiment = sentiment_analysis(song_title)
-        song_data.append({'artist_name': artist_name,
-                        'song_title': song_title,
-                        'sentiment': sentiment})
+        song_data.append({
+            'artist_name': artist_name,
+            'song_title': song_title,
+            'sentiment': sentiment
+        })
     return song_data
 
 
@@ -142,4 +144,3 @@ for artist_name in artist_names:
        
     else:
         print("Artist cannot be found.")
-
