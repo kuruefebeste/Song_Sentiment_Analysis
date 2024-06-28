@@ -13,6 +13,7 @@ import os
 import lyricsgenius
 
 
+
 CLIENT_ACCESS_TOKEN = os.environ.get("CLIENT_ACCESS_TOKEN")
 
 BASE_URL = "https://api.genius.com"
@@ -24,10 +25,11 @@ def get_artist_id(name):
     '''
     Returns the id of the artist_name given as an input.
     '''
-    headers = {'Authorization': f'Bearer {CLIENT_ACCESS_TOKEN}'}
+    headers = {
+        'Authorization': 
+        f'Bearer {CLIENT_ACCESS_TOKEN}'}
     requrl = '/'.join([BASE_URL, "search"])
     param = {'q': name}
-
     response = requests.get(requrl, headers=headers, params=param)
     response_json = response.json()
 
