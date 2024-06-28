@@ -1,5 +1,5 @@
 """
-Project Collaborators: Beste Kuruefe and Mercy Olagunju
+Author: Beste Kuruefe
 Date: June 28, 2024
 
 This file executes the main tasks of the Song Sentiment Analysis Project,
@@ -86,7 +86,7 @@ def main():
     artist_names = []
 
     # Asks the user for three artist names
-    for _ in range(1):
+    for _ in range(3):
         # Try bob marley, britney spears, justin timberlake
         name = input("Enter the name of an artist: ")
         artist_names.append(name)
@@ -163,7 +163,7 @@ def main():
 
                 print()
                 print(
-                    f"{artist_name}'s song titles tend to sound"
+                    f"{artist_name}'s song titles tend to sound "
                     + f"{first_dominant}-{second_dominant}."
                 )
         else:

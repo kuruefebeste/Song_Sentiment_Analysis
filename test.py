@@ -1,4 +1,8 @@
-"""Module providing a unittest functions."""
+"""
+Author: Mercy Olagunju
+Module providing a unittest functions.
+"""
+
 import unittest
 from unittest.mock import patch
 from main_tasks import (
