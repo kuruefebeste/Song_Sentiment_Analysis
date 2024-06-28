@@ -17,7 +17,7 @@ class TestMusicAnalysisFunctions(unittest.TestCase):
         """test get_artist_id function"""
         mock_response = mock_get.return_value
         mock_response.json.return_value = {
-            "response": {"hits": [{"result": {"primary_artist": 
+            "response": {"hits": [{"result": {"primary_artist":
                                               {"id": 12345}}}]}
         }
         artist_id = get_artist_id("Adele")
