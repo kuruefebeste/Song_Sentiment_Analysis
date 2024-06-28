@@ -82,7 +82,7 @@ def create_song_data(artist_name, songs):
 artist_names = []
 
 # Asks the user for three artist names
-for i in range(1):
+for i in range(3):
     # Try bob marley, britney spears, justin timberlake
     name = input("Enter the name of an artist: ")
     artist_names.append(name)
