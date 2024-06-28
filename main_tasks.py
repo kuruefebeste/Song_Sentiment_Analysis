@@ -109,7 +109,8 @@ def main():
             # Example: 'Ed Sheeran' -> 'ed_sheeran'
             table_name = artist_name.replace(" ", "_").lower()
 
-            songs_df.to_sql(table_name, con=engine, if_exists="replace", index=False)
+            songs_df.to_sql(table_name, con=engine, if_exists="replace",
+                            index=False)
 
             # Connects to the SQLite database
             with engine.connect() as connection:
@@ -118,7 +119,8 @@ def main():
                     db.text(f"SELECT * FROM {table_name};")
                 ).fetchall()
                 result_df = pd.DataFrame(
-                    query_result, columns=["artist_name", "song_title", "sentiment"]
+                    query_result, columns=["artist_name", "song_title",
+                                           "sentiment"]
                 )
 
                 print()
@@ -145,7 +147,8 @@ def main():
 
                 print(sentiment_summary)
                 # Determines the two most dominant sentiments
-                dominant_sentiments = sentiment_summary.nlargest(2, "proportion")
+                dominant_sentiments = sentiment_summary.nlargest(2,
+                                                                 "proportion")
                 first_dominant_val = dominant_sentiments.iloc[0]["sentiment"]
                 second_dominant_val = dominant_sentiments.iloc[1]["sentiment"]
 
