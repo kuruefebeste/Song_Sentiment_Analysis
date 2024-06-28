@@ -7,7 +7,6 @@ which is created as the Week 2 Project of the SEO Tech Developer Program.
 '''
 
 import requests
-import json
 import sqlalchemy as db
 import pandas as pd
 import os
@@ -79,68 +78,79 @@ def create_song_data(artist_name, songs):
     return song_data
 
 
-artist_names = []
+def main():
+    '''
+    Main code for project.
+    '''
+    artist_names = []
 
-# Asks the user for three artist names
-for i in range(1):
-    # Try bob marley, britney spears, justin timberlake
-    name = input("Enter the name of an artist: ")
-    artist_names.append(name)
+    # Asks the user for three artist names
+    for _ in range(1):
+        # Try bob marley, britney spears, justin timberlake
+        name = input("Enter the name of an artist: ")
+        artist_names.append(name)
 
-# Creates an SQLite Database engine, which connects to the database named songs.db
-engine = db.create_engine('sqlite:///songs.db')
+    # Creates an SQLite Database engine, which connects to the database named songs.db
+    engine = db.create_engine('sqlite:///songs.db')
 
-for artist_name in artist_names:
-    artist_id = get_artist_id(artist_name)
+    for artist_name in artist_names:
+        artist_id = get_artist_id(artist_name)
 
-    if artist_id:
-        artist_songs = get_artist_songs(artist_id)
-        song_data = create_song_data(artist_name, artist_songs)
+        if artist_id:
+            artist_songs = get_artist_songs(artist_id)
+            song_data = create_song_data(artist_name, artist_songs)
 
-        songs_df = pd.DataFrame(song_data)
+            songs_df = pd.DataFrame(song_data)
 
-        # Creates a table name by replacing spaces with underscores and converting to lowercase
-        # Example: 'Ed Sheeran' -> 'ed_sheeran'
-        table_name = artist_name.replace(" ", "_").lower()
+            # Creates a table name by replacing spaces with underscores and converting to lowercase
+            # Example: 'Ed Sheeran' -> 'ed_sheeran'
+            table_name = artist_name.replace(" ", "_").lower()
 
-        songs_df.to_sql(table_name, con=engine, if_exists='replace', index=False)
+            songs_df.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
-        # Connects to the SQLite database
-        with engine.connect() as connection:
+            # Connects to the SQLite database
+            with engine.connect() as connection:
 
-            # Does a query to retrieve all rows from the table
-            query_result = connection.execute(db.text(f"SELECT * FROM {table_name};")).fetchall()
-            result_df = pd.DataFrame(query_result, columns=['artist_name', 'song_title', 'sentiment'])
+                # Does a query to retrieve all rows from the table
+                query_result = connection.execute(
+                    db.text(f"SELECT * FROM {table_name};")).fetchall()
+                result_df = pd.DataFrame(query_result,
+                                         columns=['artist_name', 'song_title', 'sentiment'])
 
-            print()
-            print(f"Artist: {artist_name}")
-            print(result_df)
-            print()
+                print()
+                print(f"Artist: {artist_name}")
+                print(result_df)
+                print()
 
-            # Calculates the proportion of each sentiment in the songs
-            sentiment_summary_temp = result_df["sentiment"].value_counts(normalize=True)
+                # Calculates the proportion of each sentiment in the songs
+                sentiment_summary_temp = result_df["sentiment"].value_counts(normalize=True)
 
-            # Transforms the indices to a regular column
-            sentiment_summary = sentiment_summary_temp.reset_index()
+                # Transforms the indices to a regular column
+                sentiment_summary = sentiment_summary_temp.reset_index()
 
-            sentiment_summary.columns = ['sentiment', 'proportion']
-            sentiment_summary_table_name = f"{table_name}_sentiment_summary"
-            sentiment_summary.to_sql(sentiment_summary_table_name, con=engine, if_exists='replace', index=False)
+                sentiment_summary.columns = ['sentiment', 'proportion']
+                sentiment_summary_table_name = f"{table_name}_sentiment_summary"
+                sentiment_summary.to_sql(sentiment_summary_table_name,
+                                         con=engine, if_exists='replace', index=False)
 
-            print(sentiment_summary)
-            
-            # Determines the two most dominant sentiments
-            dominant_sentiments = sentiment_summary.nlargest(2, 'proportion')
-            first_dominant_val = dominant_sentiments.iloc[0]['sentiment']
-            second_dominant_val = dominant_sentiments.iloc[1]['sentiment']
+                print(sentiment_summary)
+                # Determines the two most dominant sentiments
+                dominant_sentiments = sentiment_summary.nlargest(2, 'proportion')
+                first_dominant_val = dominant_sentiments.iloc[0]['sentiment']
+                second_dominant_val = dominant_sentiments.iloc[1]['sentiment']
 
-            # Makes the output print statement more readable
-            sentiment_map = {"pos": "positive", "neg": "negative", "neutral": "neutral"}
-            first_dominant = sentiment_map.get(first_dominant_val)
-            second_dominant = sentiment_map.get(second_dominant_val)
+                # Makes the output print statement more readable
+                sentiment_map = {"pos": "positive", "neg": "negative", "neutral": "neutral"}
+                first_dominant = sentiment_map.get(first_dominant_val)
+                second_dominant = sentiment_map.get(second_dominant_val)
 
-            print()
-            print(f"{artist_name}'s song titles tend to sound {first_dominant}-{second_dominant}.")
-       
-    else:
-        print("Artist cannot be found.")
+                print()
+                print(
+                    f"{artist_name}'s song titles tend to sound {first_dominant}-{second_dominant}."
+                    )
+        else:
+            print("Artist cannot be found.")
+
+
+if __name__ == '__main__':
+    main()
