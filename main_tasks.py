@@ -137,9 +137,9 @@ def main():
                 sentiment_summary = sentiment_summary_temp.reset_index()
 
                 sentiment_summary.columns = ["sentiment", "proportion"]
-                sentiment_summary_table_name = f"{table_name}_sentiment_summary"
+                summary_table_name = f"{table_name}_sentiment_summary"
                 sentiment_summary.to_sql(
-                    sentiment_summary_table_name,
+                    summary_table_name,
                     con=engine,
                     if_exists="replace",
                     index=False,
