@@ -38,7 +38,7 @@ https://gist.github.com/imdkm/a60247b59ff1881fa4bb8846a9b44c96
 
 3. Enter the names of the artists when prompted. For example:
 
-- Enter the name of an artist: Ed Sheeran
+- Enter the name of an artist: Bob Marley
 - Enter the name of an artist: Britney Spears
 - Enter the name of an artist: Justin Timberlake
 
