@@ -91,7 +91,8 @@ def main():
         name = input("Enter the name of an artist: ")
         artist_names.append(name)
 
-    # Creates an SQLite Database engine, which connects to the database named songs.db
+    # Creates an SQLite Database engine, which connects to
+    # the database named songs.db
     engine = db.create_engine("sqlite:///songs.db")
 
     for artist_name in artist_names:
