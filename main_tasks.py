@@ -104,7 +104,8 @@ def main():
 
             songs_df = pd.DataFrame(song_data)
 
-            # Creates a table name by replacing spaces with underscores and converting to lowercase
+            # Creates a table name by replacing spaces with
+            # underscores and converting to lowercase
             # Example: 'Ed Sheeran' -> 'ed_sheeran'
             table_name = artist_name.replace(" ", "_").lower()
 
@@ -159,7 +160,8 @@ def main():
 
                 print()
                 print(
-                    f"{artist_name}'s song titles tend to sound {first_dominant}-{second_dominant}."
+                    f"{artist_name}'s song titles tend to sound"
+                    + f"{first_dominant}-{second_dominant}."
                 )
         else:
             print("Artist cannot be found.")
